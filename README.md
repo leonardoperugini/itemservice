@@ -1,5 +1,8 @@
 # ItemService
 
+![Build Status](https://github.com/leonardoperugini/itemservice/actions/workflows/ci.yml/badge.svg)
+
+
 **ItemService** è un microservizio Spring Boot per la gestione di un catalogo prodotti ("Item") pensato per la piattaforma PeriziaFacile.
 
 ## Funzionalità
