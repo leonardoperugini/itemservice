@@ -1,79 +1,99 @@
 # ItemService
 
 ![Build Status](https://github.com/leonardoperugini/itemservice/actions/workflows/ci.yml/badge.svg)
+![CodeQL](https://github.com/leonardoperugini/itemservice/actions/workflows/codeql.yml/badge.svg)
+<!--[![Coverage Status](https://img.shields.io/codecov/c/github/leonardoperugini/itemservice/main.svg)](https://codecov.io/gh/leonardoperugini/itemservice)-->
+![Docker Pulls](https://img.shields.io/docker/pulls/leonardoperugini/itemservice)
+
+---
 
 
-**ItemService** è un microservizio Spring Boot per la gestione di un catalogo prodotti ("Item") pensato per la piattaforma PeriziaFacile.
+## Descrizione
 
-## Funzionalità
+**ItemService** è un microservizio Java sviluppato secondo i principi di **Clean Architecture**, **Domain-Driven Design (DDD)** e pratiche **DevOps**.  
+Il progetto ha lo scopo di offrire una base solida, scalabile e facilmente manutenibile per la gestione di item (prodotti/oggetti/entità di dominio).
 
-- API RESTful per la gestione degli item (CRUD)
-- Documentazione OpenAPI/Swagger (springdoc-openapi)
-- Test unitari con JUnit 5 e Mockito
-- Pronto per essere integrato in architetture a microservizi
+---
 
-## Requisiti
+## Architettura
 
-- Java 17+
-- Gradle 8+
-- (Facoltativo) Docker
+Progetto strutturato secondo la Clean Architecture (Robert C. Martin):
+
+```
+┌─────────────────────────────┐
+│     Presentation Layer      │  (Controller, API, Adapter)
+├─────────────────────────────┤
+│     Application Layer       │  (UseCase, Service)
+├─────────────────────────────┤
+│     Domain Layer            │  (Entity, ValueObject, Repository Interface)
+├─────────────────────────────┤
+│     Infrastructure Layer    │  (Repository Impl, External libs, DB, Framework)
+└─────────────────────────────┘
+```
+
+- **DDD**: il dominio è centrale. Entità, Value Object, Aggregati, Repository e UseCase sono separati.
+- **Port & Adapter**: separazione tra core e interfacce verso l’esterno.
+
+Per approfondire:
+- [Clean Architecture](https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html)
+- [Domain-Driven Design](https://domainlanguage.com/ddd/)
+
+---
 
 ## Come avviare il progetto
 
+### Prerequisiti
+- Java 17+
+- Docker (opzionale, per containerizzazione)
+- Gradle (se non usi il wrapper)
+
+### Esecuzione locale
+
 ```bash
 ./gradlew bootRun
+# Oppure:
+./gradlew build
+java -jar build/libs/itemservice-*.jar
 ```
 
-L'applicazione partirà di default su [http://localhost:8080](http://localhost:8080).
-
-## API Documentation
-
-Una volta avviato il servizio, la documentazione interattiva disponibile su:
-
-```
-http://localhost:8080/swagger-ui.html
-```
-
-## Esempi di endpoint
-
-- `GET /items` - Recupera tutti gli item
-- `GET /items/{id}` - Recupera un item per ID
-- `POST /items` - Crea un nuovo item
-- `PUT /items/{id}` - Aggiorna un item esistente
-- `DELETE /items/{id}` - Elimina un item
-
-## Eseguire i test
+### Esecuzione con Docker
 
 ```bash
-./gradlew test
+docker pull leonardoperugini/itemservice:latest
+docker run -p 8080:8080 leonardoperugini/itemservice:latest
 ```
 
-## Struttura del progetto
+---
 
-```
-src/
-  main/
-    java/
-      com.periziafacile.itemservice/
-        application/    # Servizi applicativi
-        domain/         # Modelli e interfacce dominio
-        presentation/   # Controller REST
-    resources/
-  test/
-    java/
-      com.periziafacile.itemservice/
-        ItemServiceTest.java
-        ...
-```
+## Pipeline CI/CD
 
-## Tecnologie principali
+- Build & test automatici su GitHub Actions
+- Analisi statica con CodeQL
+- Build e push Docker automatico su DockerHub
+- (Opzionale: Deploy automatico su cloud)
 
-- Spring Boot 3.5.x
-- Spring Web
-- Springdoc OpenAPI
-- JUnit 5
-- Mockito
-- Gradle
+---
+
+## Contribuire
+
+1. Fai un fork del progetto
+2. Crea un branch feature: `git checkout -b my-feature`
+3. Fai commit delle tue modifiche
+4. Apri una Pull Request
+
+**Best practices:**  
+- Segui i principi di Clean Architecture e DDD.
+- Scrivi test per il nuovo codice.
+- Aggiorna la documentazione se serve.
+
+---
+
+## Link utili
+
+- [Clean Architecture](https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html)
+- [Domain-Driven Design Reference](https://domainlanguage.com/ddd/)
+- [GitHub Actions Documentation](https://docs.github.com/en/actions)
+- [DockerHub - ItemService](https://hub.docker.com/r/leonardoperugini/itemservice)
 
 ## Autore
 
