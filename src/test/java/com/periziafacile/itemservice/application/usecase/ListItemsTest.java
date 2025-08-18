@@ -1,0 +1,34 @@
+package com.periziafacile.itemservice.application.usecase;
+
+import java.math.BigDecimal;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import com.periziafacile.itemservice.domain.model.Item;
+import com.periziafacile.itemservice.infrastructure.repository.InMemorItemRepository;
+
+class ListItemsTest {
+    private InMemorItemRepository repository;
+    private ListItems listItems;
+
+    @BeforeEach
+    void setUp() {
+        repository = new InMemorItemRepository();
+        listItems = new ListItems(repository);
+    }
+
+    @Test
+    void shouldReturnAllItems() {
+        repository.save(new Item(null, "A", "DescA", new BigDecimal("1.00")));
+        repository.save(new Item(null, "B", "DescB", new BigDecimal("2.00")));
+        assertEquals(2, listItems.execute().size());
+    }
+
+    @Test
+    void shouldReturnEmptyListIfNoItems() {
+        assertTrue(listItems.execute().isEmpty());
+    }
+}
