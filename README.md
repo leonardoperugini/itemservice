@@ -2,7 +2,7 @@
 
 ![Build Status](https://github.com/leonardoperugini/itemservice/actions/workflows/ci.yml/badge.svg)
 ![CodeQL](https://github.com/leonardoperugini/itemservice/actions/workflows/codeql.yml/badge.svg)
-[![codecov](https://codecov.io/gh/leonardoperugini/itemservice/branch/main/graph/badge.svg)](https://codecov.io/gh/leonardoperugini/itemservice)
+<!--[![Coverage Status](https://img.shields.io/codecov/c/github/leonardoperugini/itemservice/main.svg)](https://codecov.io/gh/leonardoperugini/itemservice)-->
 ![Docker Pulls](https://img.shields.io/docker/pulls/leonardoperugini/itemservice)
 
 ---
