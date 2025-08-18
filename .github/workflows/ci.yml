@@ -44,3 +44,11 @@ jobs:
       with:
         name: build-artifacts
         path: build/libs/
+    
+    - name: Generate JaCoCo coverage report
+      run: ./gradlew jacocoTestReport
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v4
+      with:
+        files: build/reports/jacoco/test/jacocoTestReport.xml
