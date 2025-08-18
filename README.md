@@ -93,7 +93,7 @@ docker run -p 8080:8080 leonardoperugini/itemservice:latest
 - [Clean Architecture](https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html)
 - [Domain-Driven Design Reference](https://domainlanguage.com/ddd/)
 - [GitHub Actions Documentation](https://docs.github.com/en/actions)
-- [DockerHub - ItemService](https://hub.docker.com/r/leonardoperugini/itemservice)
+- [DockerHub - ItemService](https://hub.docker.com/r/leonardoperugini2/itemservice)
 
 ## Autore
 
