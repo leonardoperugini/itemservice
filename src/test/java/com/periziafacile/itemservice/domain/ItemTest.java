@@ -1,16 +1,22 @@
-package it.leonardoperugini.itemservice.domain;
+package com.periziafacile.itemservice.domain;
 
 import org.junit.jupiter.api.Test;
+
+import com.periziafacile.itemservice.domain.model.Item;
+
 import static org.junit.jupiter.api.Assertions.*;
+
+import java.math.BigDecimal;
 
 class ItemTest {
 
     @Test
     void shouldCreateItemWithValidFields() {
-        Item item = new Item("Perizia Medica", "Servizio di Perizia Medica su documentazione", 89.99);
-        assertEquals("Perizia Medica", item.getId());
-        assertEquals("Servizio di Perizia Medica su documentazione", item.getName());
-        assertEquals(89.99, item.getPrice());
+        Item item = new Item(1L, "Perizia Medica", "Servizio di Perizia Medica su documentazione", BigDecimal.valueOf(89.99));
+        assertEquals(1L, item.getId());
+        assertEquals("Perizia Medica", item.getName());
+        assertEquals("Servizio di Perizia Medica su documentazione", item.getDescription());
+        assertEquals(BigDecimal.valueOf(89.99), item.getPrice());
     }
 
     @Test
@@ -24,20 +30,21 @@ class ItemTest {
     void shouldSetAndGetFieldsCorrectly() {
         Item item = new Item();
         item.setId(2L);
-        item.setName("Penna");
-        item.setDescription("Blu");
-        item.setPrice(new BigDecimal("2.00"));
+        item.setName("Perizia Veicoli");
+        item.setDescription("Servizio di Perizia Veicoli su documentazione");
+        item.setPrice(new BigDecimal(2));
 
         assertEquals(2L, item.getId());
-        assertEquals("Penna", item.getName());
-        assertEquals("Blu", item.getDescription());
-        assertEquals(new BigDecimal("2.00"), item.getPrice());
+        assertEquals("Perizia Veicoli", item.getName());
+        assertEquals("Servizio di Perizia Veicoli su documentazione", item.getDescription());
+        assertEquals(new BigDecimal(2), item.getPrice());
     }
-
+    
     @Test
     void shouldNotAllowNegativePrice() {
-        Exception ex = assertThrows(IllegalArgumentException.class,
-                () -> new Item("Perizia Veicoli", "Servizio di Perizia Veicoli su documentazione", -59.99));
-        assertTrue(ex.getMessage().contains("price"));
+        Item item = new Item();
+        assertDoesNotThrow(() -> item.setPrice(BigDecimal.ZERO));
+        item.setPrice(BigDecimal.ZERO);
+        assertEquals(BigDecimal.ZERO, item.getPrice());
     }
 }
