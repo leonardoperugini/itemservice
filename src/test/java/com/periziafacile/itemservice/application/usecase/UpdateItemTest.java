@@ -9,15 +9,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.periziafacile.itemservice.domain.model.Item;
-import com.periziafacile.itemservice.infrastructure.repository.InMemorItemRepository;
+import com.periziafacile.itemservice.infrastructure.repository.InMemoryItemRepository;
 
 class UpdateItemTest {
-    private InMemorItemRepository repository;
+    private InMemoryItemRepository repository;
     private UpdateItem updateItem;
 
     @BeforeEach
     void setUp() {
-        repository = new InMemorItemRepository();
+        repository = new InMemoryItemRepository();
         updateItem = new UpdateItem(repository);
     }
 

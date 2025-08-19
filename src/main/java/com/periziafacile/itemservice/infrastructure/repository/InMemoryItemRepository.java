@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.*;
 
 @Repository
-public class InMemorItemRepository implements ItemRepository {
+public class InMemoryItemRepository implements ItemRepository {
     private final Map<Long, Item> items = new HashMap<>();
     private Long idSequence = 1L;
 

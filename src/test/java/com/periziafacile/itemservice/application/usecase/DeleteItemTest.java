@@ -8,15 +8,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.periziafacile.itemservice.domain.model.Item;
-import com.periziafacile.itemservice.infrastructure.repository.InMemorItemRepository;
+import com.periziafacile.itemservice.infrastructure.repository.InMemoryItemRepository;
 
 class DeleteItemTest {
-    private InMemorItemRepository repository;
+    private InMemoryItemRepository repository;
     private DeleteItem deleteItem;
 
     @BeforeEach
     void setUp() {
-        repository = new InMemorItemRepository();
+        repository = new InMemoryItemRepository();
         deleteItem = new DeleteItem(repository);
     }
 
