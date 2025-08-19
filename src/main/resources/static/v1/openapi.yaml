@@ -1,0 +1,170 @@
+openapi: 3.0.3
+info:
+  title: Item Service API
+  description: API per la gestione del catalogo prodotti (CRUD Item)
+  version: "1.0.0"
+servers:
+  - url: http://localhost:8080
+    description: Local server
+
+tags:
+  - name: Item
+    description: Gestione catalogo prodotti
+
+paths:
+  /items:
+    get:
+      tags:
+        - Item
+      summary: Lista di tutti i prodotti
+      description: Restituisce tutti i prodotti presenti a catalogo
+      responses:
+        '200':
+          description: Lista di prodotti
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Item'
+    post:
+      tags:
+        - Item
+      summary: Crea un nuovo prodotto
+      description: Aggiunge un nuovo prodotto al catalogo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Item'
+            examples:
+              esempio:
+                value:
+                  name: Perizia Medica
+                  description: Servizio di perizia medica su documentazione
+                  price: 89.99
+      responses:
+        '201':
+          description: Prodotto creato
+          headers:
+            Location:
+              description: URI del nuovo prodotto
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+  /items/{id}:
+    get:
+      tags:
+        - Item
+      summary: Ottieni un prodotto per id
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID del prodotto
+      responses:
+        '200':
+          description: Prodotto trovato
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+        '404':
+          description: Prodotto non trovato
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      tags:
+        - Item
+      summary: Aggiorna un prodotto
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID del prodotto
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Item'
+            examples:
+              esempio:
+                value:
+                  name: Perizia Medica
+                  description: Servizio di perizia medica su documentazione
+                  price: 89.99
+      responses:
+        '200':
+          description: Prodotto aggiornato
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+        '404':
+          description: Prodotto non trovato
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      tags:
+        - Item
+      summary: Cancella un prodotto
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID del prodotto
+      responses:
+        '204':
+          description: Prodotto cancellato
+        '404':
+          description: Prodotto non trovato
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  schemas:
+    Item:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Perizia Medica
+        description:
+          type: string
+          example: Servizio di perizia medica su documentazione
+        price:
+          type: number
+          format: float
+          example: 89.99
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          example: Not Found
+        message:
+          type: string
+          example: Item non trovato con id 42
+        timestamp:
+          type: string
+          format: date-time
