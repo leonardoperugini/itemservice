@@ -114,6 +114,7 @@ public class ItemController {
             UriComponentsBuilder uriBuilder
     ) {
         Item created = createItem.execute(item);
+        
         URI location = uriBuilder.path("/items/{id}").buildAndExpand(created.getId()).toUri();
         return ResponseEntity.created(location).body(created);
     }

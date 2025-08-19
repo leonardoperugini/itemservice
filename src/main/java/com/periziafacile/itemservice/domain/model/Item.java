@@ -33,12 +33,6 @@ public class Item {
     public Item() {
     }
 
-    public Item(String name, String description, BigDecimal price) {
-        this.name = name;
-        this.description = description;
-        this.price = price;
-    }
-
     public Item(Long id, String name, String description, BigDecimal price) {
         this.id = id;
         this.name = name;
@@ -51,9 +45,6 @@ public class Item {
     }
 
     public void setId(Long id) {
-        if (id == null)
-            throw new NullPointerException("id cannot be null");
-
         this.id = id;
     }
 
@@ -88,5 +79,15 @@ public class Item {
             throw new NullPointerException("price cannot be null");
 
         this.price = price;
+    }
+
+    @Override
+    public String toString() {
+        return "Item{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                '}';
     }
 }

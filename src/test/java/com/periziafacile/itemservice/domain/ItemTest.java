@@ -27,6 +27,20 @@ class ItemTest {
     }
 
     @Test
+    void shouldNotAllowNullDescription() {
+        Item item = new Item();
+        Exception ex = assertThrows(NullPointerException.class, () -> item.setDescription(null));
+        assertNotNull(ex);
+    }
+
+    @Test
+    void shouldNotAllowNullPrice() {
+        Item item = new Item();
+        Exception ex = assertThrows(NullPointerException.class, () -> item.setPrice(null));
+        assertNotNull(ex);
+    }
+
+    @Test
     void shouldSetAndGetFieldsCorrectly() {
         Item item = new Item();
         item.setId(2L);
