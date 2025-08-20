@@ -4,6 +4,8 @@ import java.time.Instant;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -14,9 +16,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  */
 @RestControllerAdvice
 public class RequestExceptionHandler {
+    private static final Logger log = LoggerFactory.getLogger(RequestExceptionHandler.class);
 
     @ExceptionHandler(NoSuchElementException.class)
     public ResponseEntity<Map<String, Object>> handleNotFound(NoSuchElementException ex) {
+        log.warn("NotFound: {}", ex.getMessage());
         Map<String, Object> body = Map.of(
                 "error", "Not Found",
                 "message", ex.getMessage(),
@@ -27,6 +31,7 @@ public class RequestExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, Object>> handleGeneric(Exception ex) {
+        log.error("Errore generico non gestito", ex);
         Map<String, Object> body = Map.of(
                 "error", "Internal Server Error",
                 "message", ex.getMessage(),
