@@ -9,6 +9,17 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.math.BigDecimal;
 
 class ItemTest {
+    
+    @Test
+    void toStringShouldReturnAllFields() {
+        Item item = new Item(10L, "TestName", "TestDesc", new BigDecimal("123.45"));
+        String result = item.toString();
+        assertTrue(result.contains("10"));
+        assertTrue(result.contains("TestName"));
+        assertTrue(result.contains("TestDesc"));
+        assertTrue(result.contains("123.45"));
+        assertTrue(result.startsWith("Item{"));
+    }
 
     @Test
     void shouldCreateItemWithValidFields() {

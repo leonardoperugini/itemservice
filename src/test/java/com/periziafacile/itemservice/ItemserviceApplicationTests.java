@@ -1,10 +1,15 @@
 package com.periziafacile.itemservice;
 
-import org.springframework.boot.test.context.SpringBootTest;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 class ItemserviceApplicationTests {
+    
+    @Test
+    void mainMethodRuns() {
+        ItemserviceApplication.main(new String[]{});
+    }
 
     // This class is used to ensure that the Spring application context loads successfully.
     // No tests are defined here, as the focus is on the application context loading.
