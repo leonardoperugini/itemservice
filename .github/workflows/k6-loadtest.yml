@@ -23,24 +23,14 @@ jobs:
       - name: Build Spring Boot app
         run: ./gradlew clean build
 
-      - name: Start Spring Boot app
+      - name: Start app and Run Test
         run: |
           java -jar build/libs/itemservice-0.0.1-SNAPSHOT.jar --server.address=0.0.0.0 > spring.log 2>&1 &
-          sleep 20 # Attendi che l'app sia pronta
-
-      - name: Mostra log Spring Boot
-        run: cat spring.log
-
-      - name: Wait for Spring Boot to be ready
-        run: |
           for i in {1..30}; do
             curl -sf http://localhost:8080/api/items && echo "READY" && exit 0
             echo "Waiting for app..."
             sleep 5
           done
           echo "App NOT available" && exit 1
-
-      - name: Run k6 load test
-        uses: grafana/k6-action@v0.3.1
-        with:
-          filename: loadtest.js
+          k6 run loadtest.js
+          cat spring.log
