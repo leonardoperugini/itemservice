@@ -27,7 +27,7 @@ jobs:
         run: |
           java -jar build/libs/itemservice-0.0.1-SNAPSHOT.jar --server.address=0.0.0.0 > spring.log 2>&1 &
           for i in {1..30}; do
-            curl -sf http://localhost:8080/api/items && echo "READY" && exit 0
+            curl -sf http://localhost:8080/items && echo "READY" && exit 0
             echo "Waiting for app..."
             sleep 5
           done
