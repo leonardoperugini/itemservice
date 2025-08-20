@@ -1,4 +1,4 @@
-openapi: 3.0.3
+openapi: "3.1.1"
 info:
   title: Item Service API
   description: API per la gestione del catalogo prodotti (CRUD Item)
