@@ -26,11 +26,17 @@ jobs:
           wget https://repo1.maven.org/maven2/io/gatling/highcharts/gatling-charts-highcharts-bundle/${GATLING_VERSION}/gatling-charts-highcharts-bundle-${GATLING_VERSION}.zip
           unzip gatling-charts-highcharts-bundle-${GATLING_VERSION}.zip
 
+      - name: Copy custom simulations
+        run: |
+          GATLING_VERSION=3.11.4
+          mkdir -p gatling-charts-highcharts-bundle-${GATLING_VERSION}/src/test/java/itemservice
+          cp gatling/simulations/ItemServiceSimulation.scala gatling-charts-highcharts-bundle-${GATLING_VERSION}/src/test/java/itemservice/
+
       - name: Run Gatling Simulation
         run: |
           GATLING_VERSION=3.11.4
           cd gatling-charts-highcharts-bundle-${GATLING_VERSION}
-          ./mvnw gatling:test -Dgatling.simulationClass=computerdatabase.ComputerDatabaseSimulation
+          ./mvnw gatling:test -Dgatling.simulationClass=itemservice.ItemServiceSimulation
         env:
           JAVA_OPTS: "-DbaseUrl=http://localhost:8080"
 
