@@ -62,6 +62,13 @@ java -jar build/libs/itemservice-*.jar
 docker pull leonardoperugini/itemservice:latest
 docker run -p 8080:8080 leonardoperugini/itemservice:latest
 ```
+---
+
+### Architettura monitoring
+
+- **Prometheus** non è parte integrante di periziafacile, ma un componente esterno per il monitoring.
+- In produzione, la raccolta metriche avviene su un Prometheus/Grafana centralizzato.
+- In locale, per comodità, puoi avviare Prometheus tramite `docker-compose.monitoring.yml`.
 
 ---
 
