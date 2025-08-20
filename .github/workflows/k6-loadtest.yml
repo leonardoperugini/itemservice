@@ -45,7 +45,7 @@ jobs:
 
       - name: Esegui il test k6
         run: |
-          k6 run loadtest.js --out json=k6-result.json
+          k6 run loadtest.js --out json=k6-results.json
           
       - name: Upload k6 results
         uses: actions/upload-artifact@v4
