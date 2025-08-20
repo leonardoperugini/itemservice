@@ -23,8 +23,8 @@ jobs:
       - name: Download Gatling
         run: |
           GATLING_VERSION=3.11.4
-          wget https://repo1.maven.org/maven2/io/gatling/highcharts/gatling-charts-highcharts-bundle/${GATLING_VERSION}/gatling-charts-highcharts-bundle-${GATLING_VERSION}-bundle.zip
-          unzip gatling-charts-highcharts-bundle-${GATLING_VERSION}-bundle.zip
+          wget https://repo1.maven.org/maven2/io/gatling/highcharts/gatling-charts-highcharts-bundle/${GATLING_VERSION}/gatling-charts-highcharts-bundle-${GATLING_VERSION}.zip
+          unzip gatling-charts-highcharts-bundle-${GATLING_VERSION}.zip
 
       - name: Run Gatling Simulation
         run: |
