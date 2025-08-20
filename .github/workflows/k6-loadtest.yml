@@ -14,6 +14,40 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Build Spring Boot app
+        run: ./gradlew clean build
+
+      - name: Start Spring Boot app
+        run: |
+          java -jar build/libs/itemservice-0.0.1-SNAPSHOT.jar &
+          sleep 20 # Attendi che l'app sia pronta
+
+      - name: Run k6 load test
+        uses: grafana/k6-action@v0.3.1
+        with:
+          filename: loadtest.js
+name: k6 Load Test
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ load-test ]
+  pull_request:
+    branches: [ load-test ]
+
+jobs:
+  k6:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Run k6 load test
         uses: grafana/k6-action@v0.3.1
         with:
