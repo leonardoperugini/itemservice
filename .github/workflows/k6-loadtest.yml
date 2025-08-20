@@ -45,18 +45,10 @@ jobs:
 
       - name: Esegui il test k6
         run: |
-          k6 run loadtest.js
-
-      #- name: Wait for Spring Boot to be ready
-      #  run: |
-      #    for i in {1..30}; do
-      #      curl -sf http://localhost:8080/items && echo "READY" && exit 0
-      #      echo "Waiting for app..."
-      #      sleep 5
-      #    done
-      #    echo "App NOT available" && exit 1
-
-      #- name: Run k6 load test
-      #  uses: grafana/k6-action@v0.3.1
-      #  with:
-      #    filename: loadtest.js
+          k6 run loadtest.js --out json=k6-result.json
+          
+      - name: Upload k6 results
+        uses: actions/upload-artifact@v4
+        with:
+            name: k6-results
+            path: k6-results.json
