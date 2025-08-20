@@ -5,9 +5,12 @@ import com.periziafacile.itemservice.domain.port.ItemRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Repository
 public class InMemoryItemRepository implements ItemRepository {
+    private static final Logger log = LoggerFactory.getLogger(InMemoryItemRepository.class);
     private final Map<Long, Item> items = new HashMap<>();
     private Long idSequence = 1L;
 
@@ -23,15 +26,19 @@ public class InMemoryItemRepository implements ItemRepository {
 
     @Override
     public Item save(Item item) {
+        log.info("Salvataggio item: {}", item);
         if (item.getId() == null) {
             item = new Item(idSequence++, item.getName(), item.getDescription(), item.getPrice());
         }
         items.put(item.getId(), item);
+        log.debug("Item salvato in memoria: {}", item);
         return item;
     }
 
     @Override
     public void deleteById(Long id) {
+        log.info("Cancellazione item con id={}", id);
         items.remove(id);
+        log.debug("Item con id={} cancellato dalla memoria", id);
     }
 }

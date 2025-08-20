@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,6 +37,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RequestMapping("/items")
 @Tag(name = "Item", description = "Gestione catalogo prodotti")
 public class ItemController {
+    private static final Logger log = LoggerFactory.getLogger(ItemController.class);
     private final GetItem getItem;
     private final ListItems listItems;
     private final CreateItem createItem;
@@ -62,6 +65,7 @@ public class ItemController {
     )
     @GetMapping
     public List<Item> getAll() {
+        log.info("Richiesta lista di tutti gli item");
         return listItems.execute();
     }
 
@@ -82,9 +86,16 @@ public class ItemController {
     )
     @GetMapping("/{id}")
     public ResponseEntity<Item> getById(@PathVariable Long id) {
+        log.info("Richiesta item con id={}", id);
         return getItem.execute(id)
-                .map(ResponseEntity::ok)
-                .orElseThrow(() -> new NoSuchElementException("Item non trovato con id " + id));
+                .map(item -> {
+                    log.debug("Item trovato: {}", item);
+                    return ResponseEntity.ok(item);
+                })
+                .orElseThrow(() -> {
+                    log.warn("Item non trovato con id={}", id);
+                    return new NoSuchElementException("Item non trovato con id " + id);
+                });
     }
 
     @Operation(
@@ -113,9 +124,10 @@ public class ItemController {
             @org.springframework.web.bind.annotation.RequestBody Item item,
             UriComponentsBuilder uriBuilder
     ) {
+        log.info("Creazione nuovo item: {}", item);
         Item created = createItem.execute(item);
-        
         URI location = uriBuilder.path("/items/{id}").buildAndExpand(created.getId()).toUri();
+        log.info("Item creato con id={}", created.getId());
         return ResponseEntity.created(location).body(created);
     }
 
@@ -149,9 +161,16 @@ public class ItemController {
             @PathVariable Long id,
             @org.springframework.web.bind.annotation.RequestBody Item item
     ) {
+        log.info("Richiesta aggiornamento item con id={}", id);
         return updateItem.execute(id, item)
-                .map(ResponseEntity::ok)
-                .orElseThrow(() -> new NoSuchElementException("Item non trovato con id " + id));
+                .map(updated -> {
+                    log.info("Item aggiornato: {}", updated);
+                    return ResponseEntity.ok(updated);
+                })
+                .orElseThrow(() -> {
+                    log.warn("Tentativo di aggiornare item non trovato con id={}", id);
+                    return new NoSuchElementException("Item non trovato con id " + id);
+                });
     }
 
     @Operation(
@@ -167,10 +186,13 @@ public class ItemController {
     )
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
+        log.info("Richiesta cancellazione item con id={}", id);
         if (getItem.execute(id).isPresent()) {
             deleteItem.execute(id);
+            log.info("Item cancellato con id={}", id);
             return ResponseEntity.noContent().build();
         } else {
+            log.warn("Tentativo di cancellare item non trovato con id={}", id);
             throw new NoSuchElementException("Item non trovato con id " + id);
         }
     }
