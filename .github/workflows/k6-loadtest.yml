@@ -1,0 +1,20 @@
+name: k6 Load Test
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ load-test ]
+  pull_request:
+    branches: [ load-test ]
+
+jobs:
+  k6:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run k6 load test
+        uses: grafana/k6-action@v0.3.1
+        with:
+          filename: loadtest.js
