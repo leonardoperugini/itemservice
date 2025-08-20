@@ -22,12 +22,14 @@ jobs:
 
       - name: Download Gatling
         run: |
-          wget https://github.com/gatling/gatling/releases/download/3.11.3/gatling-charts-highcharts-bundle-3.11.3-bundle.zip
-          unzip gatling-charts-highcharts-bundle-3.11.3-bundle.zip
+          GATLING_VERSION=3.11.4
+          wget https://repo1.maven.org/maven2/io/gatling/highcharts/gatling-charts-highcharts-bundle/${GATLING_VERSION}/gatling-charts-highcharts-bundle-${GATLING_VERSION}-bundle.zip
+          unzip gatling-charts-highcharts-bundle-${GATLING_VERSION}-bundle.zip
 
       - name: Run Gatling Simulation
         run: |
-          ./gatling-charts-highcharts-bundle-3.11.3/bin/gatling.sh -s computoyoursimulation.SimulationClassName
+          GATLING_VERSION=3.11.4
+          ./gatling-charts-highcharts-bundle-${GATLING_VERSION}/bin/gatling.sh -s computoyoursimulation.SimulationClassName
         env:
           JAVA_OPTS: "-DbaseUrl=http://localhost:8080"
 
@@ -35,4 +37,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: gatling-report
-          path: gatling-charts-highcharts-bundle-3.11.3/results/
+          path: gatling-charts-highcharts-bundle-3.11.4/results/
