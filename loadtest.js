@@ -7,7 +7,7 @@ export let options = {
 };
 
 export default function () {
-  const res = http.get('http://localhost:8080/api/items'); // Modifica endpoint se necessario
+  const res = http.get('http://localhost:8080/items'); // Modifica endpoint se necessario
   check(res, { 'status was 200': (r) => r.status === 200 });
   sleep(1);
 }
