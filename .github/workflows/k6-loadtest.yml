@@ -3,9 +3,9 @@ name: k6 Load Test
 on:
   workflow_dispatch:
   push:
-    branches: [ load-test ]
+    branches: [load-test]
   pull_request:
-    branches: [ load-test ]
+    branches: [load-test]
 
 jobs:
   k6:
@@ -17,8 +17,8 @@ jobs:
       - name: Set up Java
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
-          java-version: '17'
+          distribution: "temurin"
+          java-version: "17"
 
       - name: Build Spring Boot app
         run: ./gradlew clean build
@@ -28,8 +28,16 @@ jobs:
           java -jar build/libs/itemservice-0.0.1-SNAPSHOT.jar &
           sleep 20 # Attendi che l'app sia pronta
 
+      - name: Wait for Spring Boot to be ready
+        run: |
+          for i in {1..30}; do
+            nc -z localhost 8080 && echo "UP" && exit 0
+            echo "Waiting for app..."
+            sleep 5
+          done
+          echo "App NOT available" && exit 1
+
       - name: Run k6 load test
         uses: grafana/k6-action@v0.3.1
         with:
           filename: loadtest.js
-
