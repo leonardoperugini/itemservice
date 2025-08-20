@@ -30,7 +30,7 @@ jobs:
         run: |
           GATLING_VERSION=3.11.4
           cd gatling-charts-highcharts-bundle-${GATLING_VERSION}
-          ./mvnw gatling:test -Dgatling.simulationClass=computoyoursimulation.SimulationClassName
+          ./mvnw gatling:test -Dgatling.simulationClass=computerdatabase.ComputerDatabaseSimulation
         env:
           JAVA_OPTS: "-DbaseUrl=http://localhost:8080"
 
