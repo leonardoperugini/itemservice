@@ -64,12 +64,16 @@ docker run -p 8080:8080 leonardoperugini/itemservice:latest
 ```
 ---
 
-### Architettura monitoring
+## Monitoring e metriche
 
-- **Prometheus** non è parte integrante di periziafacile, ma un componente esterno per il monitoring.
-- In produzione, la raccolta metriche avviene su un Prometheus/Grafana centralizzato.
-- In locale, per comodità, puoi avviare Prometheus tramite `docker-compose.monitoring.yml`.
+Il monitoring (Prometheus, Grafana) è **esterno** rispetto all'applicazione periziafacile.  
+Per avviare Prometheus in locale per testare le metriche:
 
+```bash
+docker compose -f docker-compose.monitoring.yml up -d
+```
+
+In produzione, il monitoraggio sarà gestito centralmente oppure tramite Grafana Cloud.
 ---
 
 ## Pipeline CI/CD
