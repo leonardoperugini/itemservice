@@ -26,6 +26,18 @@ jobs:
       - name: Start Spring Boot app
         run: |
           java -jar build/libs/itemservice-0.0.1-SNAPSHOT.jar --server.address=0.0.0.0 > spring.log 2>&1 &
+          # Installa k6
+          sudo apt-get update && sudo apt-get install -y gnupg2
+          curl -s https://dl.k6.io/key.gpg | sudo apt-key add -
+          echo "deb https://dl.k6.io/deb stable main" | sudo tee /etc/apt/sources.list.d/k6.list
+          sudo apt-get update && sudo apt-get install -y k6
+          # Attendi che l'app sia pronta
+          for i in {1..30}; do
+            curl -sf http://localhost:8080/items && echo "READY" && break
+            echo "Waiting for app..."
+            sleep 5
+          done
+          # Esegui il test k6
           k6 run loadtest.js
           cat spring.log
 
