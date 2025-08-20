@@ -29,7 +29,8 @@ jobs:
       - name: Run Gatling Simulation
         run: |
           GATLING_VERSION=3.11.4
-          ./gatling-charts-highcharts-bundle-${GATLING_VERSION}/bin/gatling.sh -s computoyoursimulation.SimulationClassName
+          cd gatling-charts-highcharts-bundle-${GATLING_VERSION}
+          ./mvnw gatling:test -Dgatling.simulationClass=computoyoursimulation.SimulationClassName
         env:
           JAVA_OPTS: "-DbaseUrl=http://localhost:8080"
 
