@@ -29,8 +29,8 @@ jobs:
       - name: Copy custom simulations
         run: |
           GATLING_VERSION=3.11.4
-          mkdir -p gatling-charts-highcharts-bundle-${GATLING_VERSION}/src/test/java/itemservice
-          cp gatling/simulations/ItemServiceSimulation.scala gatling-charts-highcharts-bundle-${GATLING_VERSION}/src/test/java/itemservice/
+          mkdir -p gatling-charts-highcharts-bundle-${GATLING_VERSION}/src/test/scala/itemservice
+          cp gatling/simulations/ItemServiceSimulation.scala gatling-charts-highcharts-bundle-${GATLING_VERSION}/src/test/scala/itemservice/
 
       - name: Run Gatling Simulation
         run: |
