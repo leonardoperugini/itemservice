@@ -41,15 +41,17 @@ export default function () {
   // PUT update item (solo se id disponibile)
   if (itemId) {
     let updatePayload = JSON.stringify({
+      //id: itemId,
       name: `Item updated ${__VU}-${__ITER}`,
       description: "Updated",
+      price: 100,
     });
     res = http.put(
       `http://localhost:8080/items/${itemId}`,
       updatePayload,
       params
     );
-    check(res, { "PUT update item status 200": (r) => r.status === 200 });
+    check(res, { "PUT update item (status 200)": (r) => r.status === 200 });
     sleep(0.5);
 
     // DELETE item
