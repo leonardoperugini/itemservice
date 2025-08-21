@@ -8,7 +8,7 @@ export let options = {
 
 export default function () {
   // GET all items
-  let res = http.get("http://127.0.0.1:8080/api/items");
+  let res = http.get("http://localhost:8080/api/items");
   check(res, { "GET all items status 200": (r) => r.status === 200 });
   sleep(0.5);
 
@@ -18,7 +18,7 @@ export default function () {
     description: "Test",
   });
   let params = { headers: { "Content-Type": "application/json" } };
-  res = http.post("http://127.0.0.1:8080/api/items", payload, params);
+  res = http.post("http://localhost:8080/api/items", payload, params);
   check(res, {
     "POST create item status 201/200": (r) =>
       r.status === 201 || r.status === 200,
@@ -36,7 +36,7 @@ export default function () {
       description: "Updated",
     });
     res = http.put(
-      `http://127.0.0.1:8080/api/items/${itemId}`,
+      `http://localhost:8080/api/items/${itemId}`,
       updatePayload,
       params
     );
@@ -44,7 +44,7 @@ export default function () {
     sleep(0.5);
 
     // DELETE item
-    res = http.del(`http://127.0.0.1:8080/api/items/${itemId}`);
+    res = http.del(`http://localhost:8080/api/items/${itemId}`);
     check(res, {
       "DELETE item status 204/200": (r) => r.status === 204 || r.status === 200,
     });
