@@ -107,7 +107,7 @@ public class ItemController {
             content = @Content(
                 schema = @Schema(implementation = Item.class),
                 examples = @ExampleObject(
-                    value = "{\"name\": \"Tastiera Meccanica\", \"description\": \"Tastiera RGB gaming con switch brown\", \"price\": 89.99}"
+                    value = "{\"name\": \"Perizia Medica\", \"description\": \"Servizio di Perizia Medica su documentazione.\", \"price\": 89.99}"
                 )
             )
         ),
@@ -143,7 +143,7 @@ public class ItemController {
             content = @Content(
                 schema = @Schema(implementation = Item.class),
                 examples = @ExampleObject(
-                    value = "{\"name\": \"Tastiera Meccanica Pro\", \"description\": \"Tastiera RGB con switch red\", \"price\": 99.99}"
+                    value = "{\"name\": \"Perizia Medica On-Site\", \"description\": \"Servizio di Perizia Medica con sopralluogo.\", \"price\": 149.99}"
                 )
             )
         ),

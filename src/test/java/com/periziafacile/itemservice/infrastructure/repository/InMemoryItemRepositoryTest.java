@@ -1,15 +1,15 @@
 package com.periziafacile.itemservice.infrastructure.repository;
 
-import com.periziafacile.itemservice.domain.model.Item;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import com.periziafacile.itemservice.domain.model.Item;
 
 class InMemoryItemRepositoryTest {
 
@@ -22,14 +22,14 @@ class InMemoryItemRepositoryTest {
 
     @Test
     void shouldSaveAndFindItemById() {
-        Item item = new Item(null, "Penna", "Penna blu", new BigDecimal("2.50"));
+        Item item = new Item(null, "Perizia Medica", "Perizia Medica su documentazione", new BigDecimal("89.00"));
         Item saved = repository.save(item);
 
         Optional<Item> found = repository.findById(saved.getId());
         assertTrue(found.isPresent());
-        assertEquals("Penna", found.get().getName());
-        assertEquals("Penna blu", found.get().getDescription());
-        assertEquals(new BigDecimal("2.50"), found.get().getPrice());
+        assertEquals("Perizia Medica", found.get().getName());
+        assertEquals("Perizia Medica su documentazione", found.get().getDescription());
+        assertEquals(new BigDecimal("89.00"), found.get().getPrice());
     }
 
     @Test
@@ -40,8 +40,8 @@ class InMemoryItemRepositoryTest {
 
     @Test
     void shouldFindAllItems() {
-        repository.save(new Item(null, "A", "DescA", new BigDecimal("1.00")));
-        repository.save(new Item(null, "B", "DescB", new BigDecimal("2.00")));
+        repository.save(new Item(null, "Perizia Medica", "Perizia Medica su documentazione", new BigDecimal("89.00")));
+        repository.save(new Item(null, "Perizia Veicoli", "Perizia Veicoli su documentazione", new BigDecimal("59.00")));
 
         List<Item> items = repository.findAll();
         assertEquals(2, items.size());
@@ -49,7 +49,7 @@ class InMemoryItemRepositoryTest {
 
     @Test
     void shouldDeleteById() {
-        Item item = repository.save(new Item(null, "Penna", "Penna blu", new BigDecimal("2.50")));
+        Item item = repository.save(new Item(null, "Perizia Medica", "Perizia Medica su documentazione", new BigDecimal("89.00")));
         repository.deleteById(item.getId());
 
         Optional<Item> found = repository.findById(item.getId());

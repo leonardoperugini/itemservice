@@ -22,7 +22,7 @@ class DeleteItemTest {
 
     @Test
     void shouldDeleteExistingItem() {
-        Item item = repository.save(new Item(null, "ToDelete", "Desc", new BigDecimal("3.00")));
+        Item item = new Item(null, "Perizia Medica", "Servizio di Perizia Medica su documentazione", new BigDecimal("10.00"));
         deleteItem.execute(item.getId());
         assertTrue(repository.findById(item.getId()).isEmpty());
     }

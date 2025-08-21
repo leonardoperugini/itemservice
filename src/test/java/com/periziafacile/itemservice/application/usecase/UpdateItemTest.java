@@ -23,18 +23,22 @@ class UpdateItemTest {
 
     @Test
     void shouldUpdateExistingItem() {
-        Item item = repository.save(new Item(null, "Old", "OldDesc", new BigDecimal("5.00")));
-        Item updated = new Item(item.getId(), "New", "NewDesc", new BigDecimal("10.00"));
+
+        Item item = repository.save(new Item(null, "Perizia Medica", "Servizio di Perizia Medica su documentazione",
+                new BigDecimal("10.00")));
+        Item updated = new Item(item.getId(), "Perizia Medica (updated)",
+                "Servizio di Perizia Medica su documentazione (updated)", new BigDecimal("99.00"));
         Optional<Item> result = updateItem.execute(item.getId(), updated);
         assertTrue(result.isPresent());
-        assertEquals("New", result.get().getName());
-        assertEquals("NewDesc", result.get().getDescription());
-        assertEquals(new BigDecimal("10.00"), result.get().getPrice());
+        assertEquals("Perizia Medica (updated)", result.get().getName());
+        assertEquals("Servizio di Perizia Medica su documentazione (updated)", result.get().getDescription());
+        assertEquals(new BigDecimal("99.00"), result.get().getPrice());
     }
 
     @Test
     void shouldReturnEmptyIfItemNotFound() {
-        Item notExisting = new Item(999L, "X", "Y", new BigDecimal("1.00"));
+        Item notExisting = new Item(null, "Perizia Medica", "Servizio di Perizia Medica su documentazione",
+                new BigDecimal("10.00"));
         Optional<Item> result = updateItem.execute(notExisting.getId(), notExisting);
         assertTrue(result.isEmpty());
     }

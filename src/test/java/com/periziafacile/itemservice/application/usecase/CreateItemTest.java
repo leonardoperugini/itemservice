@@ -23,11 +23,11 @@ class CreateItemTest {
 
     @Test
     void shouldCreateNewItem() {
-        Item item = new Item(null, "Test", "Desc", new BigDecimal("10.00"));
+        Item item = new Item(null, "Perizia Medica", "Servizio di Perizia Medica su documentazione", new BigDecimal("10.00"));
         Item saved = createItem.execute(item);
         assertNotNull(saved.getId());
-        assertEquals("Test", saved.getName());
-        assertEquals("Desc", saved.getDescription());
+        assertEquals("Perizia Medica", saved.getName());
+        assertEquals("Servizio di Perizia Medica su documentazione", saved.getDescription());
         assertEquals(new BigDecimal("10.00"), saved.getPrice());
         assertTrue(repository.findById(saved.getId()).isPresent());
     }

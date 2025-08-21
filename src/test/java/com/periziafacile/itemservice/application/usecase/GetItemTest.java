@@ -1,14 +1,15 @@
 package com.periziafacile.itemservice.application.usecase;
 
-import com.periziafacile.itemservice.domain.model.Item;
-import com.periziafacile.itemservice.infrastructure.repository.InMemoryItemRepository;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import java.math.BigDecimal;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import com.periziafacile.itemservice.domain.model.Item;
+import com.periziafacile.itemservice.infrastructure.repository.InMemoryItemRepository;
 
 class GetItemTest {
     private InMemoryItemRepository repository;

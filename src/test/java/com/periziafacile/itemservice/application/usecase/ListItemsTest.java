@@ -22,8 +22,8 @@ class ListItemsTest {
 
     @Test
     void shouldReturnAllItems() {
-        repository.save(new Item(null, "A", "DescA", new BigDecimal("1.00")));
-        repository.save(new Item(null, "B", "DescB", new BigDecimal("2.00")));
+        repository.save(new Item(null, "Perizia Medica", "Servizio di Perizia Medica su documentazione", new BigDecimal("1.00")));
+        repository.save(new Item(null, "Perizia Veicoli", "Servizio di Perizia Veicoli su documentazione", new BigDecimal("2.00")));
         assertEquals(2, listItems.execute().size());
     }
 
