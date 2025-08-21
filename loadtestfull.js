@@ -9,7 +9,7 @@ export let options = {
 export default function () {
   // GET all items
   let res = http.get("http://localhost:8080/items");
-  check(res, { "GET all items status 200": (r) => r.status === 200 });
+  check(res, { "GET all items (status 200)": (r) => r.status === 200 });
   sleep(0.5);
 
   // POST create item
@@ -20,13 +20,22 @@ export default function () {
   let params = { headers: { "Content-Type": "application/json" } };
   res = http.post("http://localhost:8080/items", payload, params);
   check(res, {
-    "POST create item status 201/200": (r) =>
+    "POST create item (status 201/200)": (r) =>
       r.status === 201 || r.status === 200,
   });
+
   let itemId = null;
   try {
     itemId = res.json("id");
   } catch (e) {}
+
+  // GET single item (solo se id disponibile)
+  if (itemId) {
+    res = http.get(`http://localhost:8080/items/${itemId}`);
+    check(res, { "GET single item (status 200)": (r) => r.status === 200 });
+  } else {
+    console.error("Item ID not available for GET single item");
+  }
   sleep(0.5);
 
   // PUT update item (solo se id disponibile)
@@ -46,8 +55,10 @@ export default function () {
     // DELETE item
     res = http.del(`http://localhost:8080/items/${itemId}`);
     check(res, {
-      "DELETE item status 204/200": (r) => r.status === 204 || r.status === 200,
+      "DELETE item (status 204/200)": (r) => r.status === 204 || r.status === 200,
     });
     sleep(0.5);
+  } else {
+    console.error("Item ID not available for PUT update item or DELETE item");
   }
 }
