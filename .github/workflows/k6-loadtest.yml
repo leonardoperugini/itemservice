@@ -3,9 +3,9 @@ name: k6 Load Test
 on:
   workflow_dispatch:
   push:
-    branches: [load-test]
+    branches: [main, load-test]
   pull_request:
-    branches: [load-test]
+    branches: [main, load-test]
 
 jobs:
   k6:
