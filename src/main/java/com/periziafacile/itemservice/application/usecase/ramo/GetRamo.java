@@ -1,4 +1,4 @@
-package com.periziafacile.itemservice.application.usecase;
+package com.periziafacile.itemservice.application.usecase.ramo;
 
 import java.util.Optional;
 

@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.periziafacile.itemservice.application.usecase.CreateItem;
-import com.periziafacile.itemservice.application.usecase.DeleteItem;
-import com.periziafacile.itemservice.application.usecase.GetItem;
-import com.periziafacile.itemservice.application.usecase.ListItems;
-import com.periziafacile.itemservice.application.usecase.UpdateItem;
+import com.periziafacile.itemservice.application.usecase.item.CreateItem;
+import com.periziafacile.itemservice.application.usecase.item.DeleteItem;
+import com.periziafacile.itemservice.application.usecase.item.GetItem;
+import com.periziafacile.itemservice.application.usecase.item.ListItems;
+import com.periziafacile.itemservice.application.usecase.item.UpdateItem;
 import com.periziafacile.itemservice.domain.model.Item;
 import com.periziafacile.itemservice.domain.port.ItemRepository;
 
@@ -52,38 +52,21 @@ public class ItemController {
         this.deleteItem = new DeleteItem(itemRepository);
     }
 
-    @Operation(
-        summary = "Lista di tutti i prodotti",
-        description = "Restituisce tutti i prodotti presenti a catalogo",
-        responses = {
-            @ApiResponse(
-                responseCode = "200",
-                description = "Lista di prodotti",
-                content = @Content(mediaType = "application/json", schema = @Schema(implementation = Item.class))
-            )
-        }
-    )
+    @Operation(summary = "Lista di tutti i prodotti", description = "Restituisce tutti i prodotti presenti a catalogo", responses = {
+            @ApiResponse(responseCode = "200", description = "Lista di prodotti", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Item.class)))
+    })
     @GetMapping
     public List<Item> getAll() {
         log.info("Richiesta lista di tutti gli item");
         return listItems.execute();
     }
 
-    @Operation(
-        summary = "Ottieni un prodotto per id",
-        description = "Restituisce il prodotto dato il suo id",
-        parameters = {
+    @Operation(summary = "Ottieni un prodotto per id", description = "Restituisce il prodotto dato il suo id", parameters = {
             @Parameter(name = "id", description = "ID del prodotto", example = "1")
-        },
-        responses = {
-            @ApiResponse(
-                responseCode = "200",
-                description = "Prodotto trovato",
-                content = @Content(mediaType = "application/json", schema = @Schema(implementation = Item.class))
-            ),
+    }, responses = {
+            @ApiResponse(responseCode = "200", description = "Prodotto trovato", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Item.class))),
             @ApiResponse(responseCode = "404", description = "Prodotto non trovato")
-        }
-    )
+    })
     @GetMapping("/{id}")
     public ResponseEntity<Item> getById(@PathVariable Long id) {
         log.info("Richiesta item con id={}", id);
@@ -98,32 +81,13 @@ public class ItemController {
                 });
     }
 
-    @Operation(
-        summary = "Crea un nuovo prodotto",
-        description = "Aggiunge un nuovo prodotto al catalogo",
-        requestBody = @RequestBody(
-            description = "Dati del nuovo prodotto",
-            required = true,
-            content = @Content(
-                schema = @Schema(implementation = Item.class),
-                examples = @ExampleObject(
-                    value = "{\"name\": \"Perizia Medica\", \"description\": \"Servizio di Perizia Medica su documentazione.\", \"price\": 89.99}"
-                )
-            )
-        ),
-        responses = {
-            @ApiResponse(
-                responseCode = "201",
-                description = "Prodotto creato",
-                content = @Content(mediaType = "application/json", schema = @Schema(implementation = Item.class))
-            )
-        }
-    )
+    @Operation(summary = "Crea un nuovo prodotto", description = "Aggiunge un nuovo prodotto al catalogo", requestBody = @RequestBody(description = "Dati del nuovo prodotto", required = true, content = @Content(schema = @Schema(implementation = Item.class), examples = @ExampleObject(value = "{\"name\": \"Perizia Medica\", \"description\": \"Servizio di Perizia Medica su documentazione.\", \"price\": 89.99}"))), responses = {
+            @ApiResponse(responseCode = "201", description = "Prodotto creato", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Item.class)))
+    })
     @PostMapping
     public ResponseEntity<Item> create(
             @org.springframework.web.bind.annotation.RequestBody Item item,
-            UriComponentsBuilder uriBuilder
-    ) {
+            UriComponentsBuilder uriBuilder) {
         log.info("Creazione nuovo item: {}", item);
         Item created = createItem.execute(item);
         URI location = uriBuilder.path("/items/{id}").buildAndExpand(created.getId()).toUri();
@@ -131,36 +95,16 @@ public class ItemController {
         return ResponseEntity.created(location).body(created);
     }
 
-    @Operation(
-        summary = "Aggiorna un prodotto",
-        description = "Aggiorna i dati di un prodotto esistente",
-        parameters = {
+    @Operation(summary = "Aggiorna un prodotto", description = "Aggiorna i dati di un prodotto esistente", parameters = {
             @Parameter(name = "id", description = "ID del prodotto", example = "1")
-        },
-        requestBody = @RequestBody(
-            description = "Dati aggiornati del prodotto",
-            required = true,
-            content = @Content(
-                schema = @Schema(implementation = Item.class),
-                examples = @ExampleObject(
-                    value = "{\"name\": \"Perizia Medica On-Site\", \"description\": \"Servizio di Perizia Medica con sopralluogo.\", \"price\": 149.99}"
-                )
-            )
-        ),
-        responses = {
-            @ApiResponse(
-                responseCode = "200",
-                description = "Prodotto aggiornato",
-                content = @Content(mediaType = "application/json", schema = @Schema(implementation = Item.class))
-            ),
+    }, requestBody = @RequestBody(description = "Dati aggiornati del prodotto", required = true, content = @Content(schema = @Schema(implementation = Item.class), examples = @ExampleObject(value = "{\"name\": \"Perizia Medica On-Site\", \"description\": \"Servizio di Perizia Medica con sopralluogo.\", \"price\": 149.99}"))), responses = {
+            @ApiResponse(responseCode = "200", description = "Prodotto aggiornato", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Item.class))),
             @ApiResponse(responseCode = "404", description = "Prodotto non trovato")
-        }
-    )
+    })
     @PutMapping("/{id}")
     public ResponseEntity<Item> update(
             @PathVariable Long id,
-            @org.springframework.web.bind.annotation.RequestBody Item item
-    ) {
+            @org.springframework.web.bind.annotation.RequestBody Item item) {
         log.info("Richiesta aggiornamento item con id={}", id);
         return updateItem.execute(id, item)
                 .map(updated -> {
@@ -173,17 +117,12 @@ public class ItemController {
                 });
     }
 
-    @Operation(
-        summary = "Cancella un prodotto",
-        description = "Elimina un prodotto dal catalogo tramite id",
-        parameters = {
+    @Operation(summary = "Cancella un prodotto", description = "Elimina un prodotto dal catalogo tramite id", parameters = {
             @Parameter(name = "id", description = "ID del prodotto", example = "1")
-        },
-        responses = {
+    }, responses = {
             @ApiResponse(responseCode = "204", description = "Prodotto cancellato"),
             @ApiResponse(responseCode = "404", description = "Prodotto non trovato")
-        }
-    )
+    })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         log.info("Richiesta cancellazione item con id={}", id);
