@@ -10,22 +10,28 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.periziafacile.itemservice.domain.model.Item;
+import com.periziafacile.itemservice.domain.model.Ramo;
 
 class InMemoryItemRepositoryTest {
 
-    private InMemoryItemRepository repository;
+    private InMemoryItemRepository item_repository;
+    private InMemoryRamoRepository ramo_repository;
 
     @BeforeEach
     void setUp() {
-        repository = new InMemoryItemRepository();
+        item_repository = new InMemoryItemRepository();
+        ramo_repository = new InMemoryRamoRepository();
+        ramo_repository.save(new Ramo(null, "Ramo Test", "Descrizione Ramo Test"));
     }
 
     @Test
     void shouldSaveAndFindItemById() {
-        Item item = new Item(null, "Perizia Medica", "Perizia Medica su documentazione", new BigDecimal("89.00"));
-        Item saved = repository.save(item);
+        Ramo ramo = ramo_repository.findById(1L).get();
+        
+        Item item = new Item(null, "Perizia Medica", "Perizia Medica su documentazione", new BigDecimal("89.00"), ramo);
+        Item saved = item_repository.save(item);
 
-        Optional<Item> found = repository.findById(saved.getId());
+        Optional<Item> found = item_repository.findById(saved.getId());
         assertTrue(found.isPresent());
         assertEquals("Perizia Medica", found.get().getName());
         assertEquals("Perizia Medica su documentazione", found.get().getDescription());
@@ -34,25 +40,33 @@ class InMemoryItemRepositoryTest {
 
     @Test
     void shouldReturnEmptyWhenItemNotFound() {
-        Optional<Item> found = repository.findById(999L);
+        Optional<Item> found = item_repository.findById(999L);
         assertTrue(found.isEmpty());
     }
 
     @Test
     void shouldFindAllItems() {
-        repository.save(new Item(null, "Perizia Medica", "Perizia Medica su documentazione", new BigDecimal("89.00")));
-        repository.save(new Item(null, "Perizia Veicoli", "Perizia Veicoli su documentazione", new BigDecimal("59.00")));
+        Ramo ramo = new Ramo(10L, "Ramo Test", "Descrizione Ramo Test");
+        Item item = new Item(null, "Perizia Medica", "Perizia Medica su documentazione", new BigDecimal("89.00"), ramo);
+        item_repository.save(item);
+                
+        item = new Item(null, "Perizia Veicoli", "Perizia Veicoli su documentazione", new BigDecimal("59.00"));
+        item_repository.save(item);
 
-        List<Item> items = repository.findAll();
+        //item_repository.save(new Item(null, "Perizia Medica", "Perizia Medica su documentazione", new BigDecimal("89.00")));
+        //item_repository.save(item);
+
+        List<Item> items = item_repository.findAll();
         assertEquals(2, items.size());
     }
 
     @Test
     void shouldDeleteById() {
-        Item item = repository.save(new Item(null, "Perizia Medica", "Perizia Medica su documentazione", new BigDecimal("89.00")));
-        repository.deleteById(item.getId());
+        Item item = item_repository
+                .save(new Item(null, "Perizia Medica", "Perizia Medica su documentazione", new BigDecimal("89.00")));
+        item_repository.deleteById(item.getId());
 
-        Optional<Item> found = repository.findById(item.getId());
+        Optional<Item> found = item_repository.findById(item.getId());
         assertTrue(found.isEmpty());
     }
 }

@@ -30,6 +30,12 @@ public class Item {
     @Schema(description = "Prezzo del prodotto", example = "89.99", requiredMode = Schema.RequiredMode.REQUIRED)
     private BigDecimal price;
 
+    /**
+     * Ramo di appartenenza del prodotto.
+     */
+    @Schema(description = "Ramo di appartenenza del prodotto", example = "Veicoli")
+    private Ramo ramo;
+
     public Item() {
     }
 
@@ -38,6 +44,14 @@ public class Item {
         this.name = name;
         this.description = description;
         this.price = price;
+    }
+
+    public Item(Long id, String name, String description, BigDecimal price, Ramo ramo) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.ramo = ramo;
     }
 
     public Long getId() {
@@ -81,13 +95,22 @@ public class Item {
         this.price = price;
     }
 
+    public Ramo getRamo() {
+        return ramo;
+    }
+
+    public void setRamo(Ramo ramo) {
+        this.ramo = ramo;
+    }
+
     @Override
     public String toString() {
         return "Item{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", price=" + price +
+                ", price=" + price + '\'' +
+                ", ramo='" + ramo + '\'' +
                 '}';
     }
 }
